@@ -17,6 +17,10 @@ This project is a personal investigation related to the use, fundamentals and im
 
 ## Fundamentals:
 
+In my years of working on Laravel projects of all kinds, I've come to realize that this is a hotly debated topic.
+All developers have very different opinions about the use, the implementation and if it is really necessary to use; the Repository Pattern.
+I hope in this project I can demonstrate my point of view on this issue and make a contribution, however small, to our beloved community.
+
 
 
 ## Installation:
