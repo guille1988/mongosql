@@ -63,7 +63,7 @@ to all relational operations between tables/documents, treated the same as each 
 The key question would be, how is this pattern designed and implemented in the application? I will explain it below:
 
 I've built an interface that, depending on the selected database, will automatically be constructed with the proper model.
-For that, I've made a BaseInterface that can auto-resolve his child interfaces, but for more control, you can do that on your own.
+For that, I've made a BaseRepository that can auto-resolve his child repositories, but for more control, you can do that on your own.
 Let me demonstrate you with portions of the code:
 
 
@@ -210,3 +210,24 @@ If you want to develop some method that contains different implementations on ea
         }
     }
 ```
+I want to clarify that, in my opinion, Repositories has nothing to do with Services. Services are methods that are meant
+to help Controllers with a lot of functionality within. You can use Repositories inside them, but they work in
+different ways.
+
+## Conclusion:
+
+I really hope this tiny work helps someone in his IT journey. This is a result, as I said before, of a lot of investigation
+in many languages and projects over the years. If you like what you've read, please star me, I'd really appreciate it.
+
+## Issues:
+
+For any issues, questions or suggestions, please don't hesitate to post it in issues or send a mail to the one above.
+
+## Security:
+
+If you discover any security-related issues, please email [guill388@hotmail.com](mailto:guill388@hotmail.com) instead of using the issue tracker.
+
+## Credits:
+
+Special thanks to [Francisco Panozzo](https://github.com/franpanozzo) who greatly helped me along the way =).
+
