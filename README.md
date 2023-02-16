@@ -39,6 +39,17 @@ we are forced to have to interact with relational and non-relational databases a
 
 I'm a fan of going straight to look for practical examples, so, following this premise, let's suppose: 
 
+We are required to work with MongoDB and MySQL and we must develop an implementation that allows us to develop an application,
+which can make all sort of database operations, both in MongoDB and MySQL. Is this possible?, and the answer to this question is,
+without hesitation, **YES**. And this application is proof of that.
+
+Before continuing, you can see the application running on this [_link_](https://www.google.com)
+
+
+
+
+
+
 
 
 ## Installation:
