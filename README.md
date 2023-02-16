@@ -1,4 +1,4 @@
-# MongoSQL project:
+# MongoSQL:
 
 ## Introduction:
 
@@ -27,10 +27,10 @@ in different languages, trying to put a definition that encompasses all the char
 In the end, after analyzing it for a long time, I came up with, in my humble opinion, one that fits with all of them: **Set of interfaces**
 
 Obviously this would be something basic, because if we go to something more specific it would be something like this:
-**Set of interfaces that allows abstracting the logic related to the data model, in order to use it in different databases.**
+**Set of interfaces that allows abstracting the logic related to the data model, in order to use it in different kind of databases.**
 
 All of us who've worked for a long time in software development, know that this case is very atypical,
-since in 99% of them it' i's decided in advance, in the requirements phase, which type of database one is going to work.
+since in 99% of them it's decided in advance, in the requirements phase, which type of database one is going to work.
 If we start to think, Eloquent, the Laravel ORM, is already a repository of the same, since it allows us to interact or act as a bridge
 between the database and the application. Thanks to it, we are abstracted from having to communicate with the relational database,
 throwing queries manually.
@@ -143,7 +143,7 @@ This is BaseRepository.php:
 
 ```
 
-It auto-resolve all child interfaces, but, as I said before, if you want more control, you can overwrite
+It auto-resolve all child repositories, but as I said before, if you want more control, you can overwrite
 model() method to return exactly the model that belongs to the specific child:
 
 ```php
