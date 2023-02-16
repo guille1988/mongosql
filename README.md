@@ -162,3 +162,51 @@ model() method to return exactly the model that belongs to the specific child:
     }
 
 ```
+
+Then it is easy, controllers are constructed by an instance of the corresponding repository and the magic happens:
+
+This is PostController.php:
+
+```php
+class PostController extends Controller
+{
+    public function __construct(private readonly PostRepositoryInterface $postRepository){}
+
+    public function index(): View
+    {
+        try
+        {
+            $posts = $this->postRepository->all()->load('task');
+            $tasks = app(TaskRepositoryInterface::class)->all();
+
+            $databaseInfo = app(DatabaseService::class)->getAllDataInfo(config('database.default'));
+            $data = array_merge(compact(['posts', 'tasks']), $databaseInfo);
+
+            return view('tables.posts.table', $data);
+        }
+        catch(Exception|Error $error)
+        {
+            return view('tables.posts.table')->with(compact('error'));
+        }
+    }
+```
+We can communicate directly with the interface that resolve for us, the corresponding model and method for each operation.
+
+If you want to develop some method that contains different implementations on each model, you can put it in their specific repository.
+
+```php
+    <?php
+    
+    namespace App\Repositories\Mongo;
+    
+    use App\Repositories\Interfaces\PostRepositoryInterface;
+    use App\Repositories\BaseRepository;
+    
+    class PostRepository extends BaseRepository implements PostRepositoryInterface 
+    {
+        public function create(array $data): mixed
+        {
+            //Implement what you want here
+        }
+    }
+```
