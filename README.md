@@ -44,12 +44,121 @@ which can make all sort of database operations, both in MongoDB and MySQL. Is th
 without hesitation, **YES**. And this application is proof of that.
 
 Before continuing, you can see the application running on this [_link_](https://www.google.com),
-and you can see the corresponding database diagram [here](https://github.com/guille1988/mongosql/blob/main/docs/DER%20MongoSQL%202-10-2022.pdf)
+and you can see the corresponding database diagram [here](https://github.com/guille1988/mongosql/blob/main/docs/database_diagram.png)
+
+To put things in context, the situation is like this:
+
+* A post has one task
+* A task has many posts
+* A task has many items
+* An item has many tasks through a pivot table called 'item_task'
+
+Continuing with the explanation, in the application, you will find the posts and tasks table, with all
+previously mentioned relationships. This table contains the basic actions corresponding to a
+CRUD and a button to change relational database (MySQL) to non-relational (MongoDB).
+
+The focus of the application is located, in which one can perform all the basic operations of a CRUD, added
+to all relational operations between tables/documents, treated the same as each other, thanks to the Repository Pattern.
+
+The key question would be, how is this pattern designed and implemented in the application? I will explain it below:
+
+I've built an interface that, depending on the selected database, will automatically be constructed with the proper model.
+For that, I've made a BaseInterface that can auto-resolve his child interfaces, but for more control, you can do that on your own.
+Let me demonstrate you with portions of the code:
 
 
-## Installation:
+This code is in AppServiceProvider.php:
 
 ```php
-composer require felipetti/service-layer
+
+    private array $repositories = ['post', 'user', 'task', 'item'];
+
+    public function buildPath(string $name, bool $isInterface = true, ?string $dbType = NULL): string
+    {
+        $repositoryPath = 'App\Repositories\\';
+
+        return $isInterface ?
+            $repositoryPath . "Interfaces\\$name" . 'RepositoryInterface' :
+            $repositoryPath . "$dbType\\$name" . 'Repository';
+    }
+
+    public function bind(string $repository): void
+    {
+        $name = ucfirst($repository);
+        $database = config('database.default') == 'mongodb' ? 'Mongo' : 'Sql';
+
+        $this->app->bind($this->buildPath($name), $this->buildPath($name, false, $database));
+    }
+
+    public function register(): void
+    {
+        collect($this->repositories)->map(fn($repository) => $this->bind($repository));
+    }
+
 ```
 
+It binds to the interface the corresponding model according to the selected database.
+
+
+This is BaseRepository.php:
+
+```php
+
+    private SqlModel|MongoModel $model;
+
+    protected function model(): string
+    {
+        $model = str_replace('Repository','',class_basename($this));
+        $folder = config('database.default') == 'mongodb' ? "Mongo" : "Sql";
+
+        return "App\Models\\$folder\\$model";
+    }
+
+    public function __construct(){$this->model = app($this->model());}
+
+    public function all(): Collection
+    {
+        return $this->model->all();
+    }
+
+    public function create(array $data): mixed
+    {
+        return $this->model->create($data);
+    }
+
+    public function find(int|string $id): mixed
+    {
+        return $this->model->find($id);
+    }
+
+    public function update(array $data, int|string $id): bool
+    {
+        return $this->model->find($id)->update($data);
+    }
+
+    public function delete(int|string $id): bool
+    {
+        return $this->model->destroy($id);
+    }
+
+```
+
+It auto-resolve all child interfaces, but, as I said before, if you want more control, you can overwrite
+model() method to return exactly the model that belongs to the specific child:
+
+```php
+
+    namespace App\Repositories\Mongo;
+    
+    use App\Repositories\Interfaces\PostRepositoryInterface;
+    use App\Repositories\BaseRepository;
+    
+    class PostRepository extends BaseRepository implements PostRepositoryInterface
+    {
+        protected function model(): string
+        {
+            return Post::class; 
+        }
+    }
+
+```
