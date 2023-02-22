@@ -43,7 +43,7 @@ We are required to work with MongoDB and MySQL and we must develop an implementa
 which can make all sort of database operations, both in MongoDB and MySQL. Is this possible?, and the answer to this question is,
 without hesitation, **YES**. And this application is proof of that.
 
-Before continuing, you can see the application running on this [_link_](184.168.22.226),
+Before continuing, you can see the application running on this [_link_](http://184.168.22.226),
 and you can see the corresponding database diagram [here](https://github.com/guille1988/mongosql/blob/main/docs/database_diagram.png)
 
 To put things in context, the situation is like this:
