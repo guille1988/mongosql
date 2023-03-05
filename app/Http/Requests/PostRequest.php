@@ -16,7 +16,6 @@ use App\Rules\IsValid;
 class PostRequest extends FormRequest
 {
     use Rules;
-    private array $paramRoutes= ['update', 'destroy'];
     private int $minRecords = 1;
     private int $maxRecords = 1000;
 
@@ -26,12 +25,7 @@ class PostRequest extends FormRequest
     }
     protected function prepareForValidation()
     {
-        if
-        (
-            collect($this->paramRoutes)
-                ->map(fn($route) => $this->routeIs('posts.' . $route))
-                ->contains(true)
-        )
+        if ($this->routeIs('posts.destroy', 'posts.update'))
             $this->merge(['id' => $this->route('post')]);
     }
 

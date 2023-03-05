@@ -4,8 +4,11 @@ namespace App\Http\Requests;
 
 use App\Repositories\Interfaces\ItemRepositoryInterface;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Traits\Rules;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
 use App\Rules\RejectIfHasPosts;
 use App\Rules\IsNotNumeric;
@@ -14,7 +17,6 @@ use App\Rules\IsValid;
 class TaskRequest extends FormRequest
 {
     use Rules;
-    private array $paramRoutes= ['update', 'destroy'];
 
     private int $minRecords = 1;
     private int $maxRecords = 1000;
@@ -25,12 +27,7 @@ class TaskRequest extends FormRequest
     }
     protected function prepareForValidation()
     {
-        if
-        (
-            collect($this->paramRoutes)
-                ->map(fn($route) => $this->routeIs('tasks.' . $route))
-                ->contains(true)
-        )
+        if($this->routeIs('tasks.destroy', 'tasks.update'))
             $this->merge(['id' => $this->route('task')]);
     }
 
@@ -96,5 +93,11 @@ class TaskRequest extends FormRequest
                 Rule::prohibitedIf($this->quantityOfRecords() <= $this->minRecords)
             ]
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        if($this->routeIs('tasks.store', 'tasks.update'))
+            throw new ValidationException($validator, new JsonResponse(['errors' => $validator->errors()->messages()], 422),);
     }
 }

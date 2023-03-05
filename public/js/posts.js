@@ -26,10 +26,10 @@ $(document).ready(function ()
                 if(data.success === true)
                     location.reload();
             },
-            error: function (xhr, ajaxOptions, thrownError) {
-                console.log(JSON.parse(xhr.responseText));
-                console.log(ajaxOptions);
-                console.log(thrownError);
+            error: function(error)
+            {
+                if(error.status === 422)
+                    console.log(JSON.parse(error.responseText));
             }
         });
     });

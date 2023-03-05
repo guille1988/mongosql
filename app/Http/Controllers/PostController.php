@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\View;
 use App\Http\Requests\PostRequest;
+use Illuminate\Http\JsonResponse;
 use App\Services\DatabaseService;
 use Exception;
 use Error;
