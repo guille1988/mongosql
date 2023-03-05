@@ -25,8 +25,8 @@
                 </div>
             @endif
 
-            <div class="alert alert-success" hidden="hidden"></div>
-
+            <div id="success" class="alert alert-success" hidden></div>
+            <div id="error" class="alert alert-danger" hidden></div>
             <!-- Error messages -->
             @if($errors->any())
                 <div class="alert alert-danger">

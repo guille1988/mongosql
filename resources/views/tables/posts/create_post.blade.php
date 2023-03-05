@@ -19,18 +19,24 @@
 
                     <div class="form-group">
                         <label for="title">Title</label>
-                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter title">
+                        <input type="text" class="form-control modal-input" id="title" name="title" placeholder="Enter title">
                     </div>
+
+                    <div id="titleError" class="alert alert-danger modal-input-error" style="font-size: small" hidden></div>
 
                     <div class="form-group">
                         <label for="body">Body</label>
-                        <input type="text" class="form-control" id="body" name="body" placeholder="Enter body">
+                        <input type="text" class="form-control modal-input" id="body" name="body" placeholder="Enter body">
                     </div>
+
+                    <div id="bodyError" class="alert alert-danger modal-input-error" style="font-size: small" hidden></div>
 
                     <div class="form-group">
                         <label for="slug">Slug</label>
-                        <input type="text" class="form-control" id="slug" name="slug" placeholder="Enter slug">
+                        <input type="text" class="form-control modal-input" id="slug" name="slug" placeholder="Enter slug">
                     </div>
+
+                    <div id="slugError" class="alert alert-danger modal-input-error" style="font-size: small" hidden></div>
 
                     <div class="form-group">
                         <label for="task">Tasks</label>
@@ -41,6 +47,8 @@
                             @endforeach
                         </select>
                     </div>
+
+                    <div id="task_idError" class="alert alert-danger modal-input-error" style="font-size: small" hidden></div>
 
                 </div>
                 <div class="modal-footer">
