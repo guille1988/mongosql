@@ -18,12 +18,14 @@
             <p class="mb-4">This CRUD was made to explain the implementation of repository pattern in a Laravel
                 project</p>
 
-            <!-- Success message -->
+            <!-- Success message posts.destroy and tasks.destroy-->
             @if(session('success'))
                 <div class="alert alert-success">
                     {{session('success')}}
                 </div>
             @endif
+
+            <div class="alert alert-success" hidden="hidden"></div>
 
             <!-- Error messages -->
             @if($errors->any())
