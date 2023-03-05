@@ -13,7 +13,7 @@
 
             </div>
 
-            <form method="POST" action="{{route('posts.store')}}">
+            <form id="createForm" method="POST" action="{{route('posts.store')}}">
                 @csrf
                 <div class="modal-body">
 

@@ -4,8 +4,11 @@ namespace App\Http\Requests;
 
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Traits\Rules;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
 use App\Rules\IsNotNumeric;
 use App\Rules\IsValid;
@@ -88,5 +91,11 @@ class PostRequest extends FormRequest
             'slug' => ['required', 'string', new IsNotNumeric],
             'task_id' => ['required', new IsValid(TaskRepositoryInterface::class)]
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        if($this->routeIs('posts.store', 'posts.update'))
+            throw new ValidationException($validator, new JsonResponse(['errors' => $validator->errors()->messages()], 422),);
     }
 }

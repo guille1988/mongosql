@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Response;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
@@ -38,5 +39,21 @@ class AppServiceProvider extends ServiceProvider
 
         Model::preventLazyLoading(!$this->app->isProduction());
         Model::preventAccessingMissingAttributes($conditionToAccess);
+
+        Response::macro('success', function ($data)
+        {
+            return response()->json([
+                'success' => true,
+                'data' => $data
+            ]);
+        });
+
+        Response::macro('error', function (array|string $errors, int $status)
+        {
+            return response()->json([
+                'success' => false,
+                'errors' => is_array($errors) ? $errors : ['errors' => [$errors]]
+            ],$status);
+        });
     }
 }

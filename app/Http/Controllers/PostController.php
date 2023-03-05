@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\View;
 use App\Http\Requests\PostRequest;
@@ -33,17 +34,17 @@ class PostController extends Controller
         }
     }
 
-    public function store(PostRequest $request): RedirectResponse
+    public function store(PostRequest $request): JsonResponse
     {
         try
         {
             $this->postRepository->create($request->validated());
 
-            return back()->with(['success' => 'Post created successfully']);
+            return response()->success('Post created successfully');
         }
         catch(Exception|Error $error)
         {
-            return back()->with(compact('error'));
+            return response()->error($error->getMessage());
         }
     }
 
